@@ -1,0 +1,6 @@
+bin/
+misc/
+.classpath
+.project
+*.class
+
