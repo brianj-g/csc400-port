@@ -1,0 +1,88 @@
+/* Class design document */
+
+
+/* Person class */
+_____
+Person
+_____
+- firstName: String
+- lastName: String
+- age: int
+_____
++ person(): void
++ getFirstName(String firstName): String
++ getLastName(String lastName): String
++ getAge(int age): int
++ toString() // Override
+_____
+
+/* Sorting implementation */
+_____
+Sort<T>
+_____
+_____
++ quickSort(T[] itemArray, int p, int r): void, static
+- partition(T[] itemArray, int p, int r): void, static
+_____
+
+/* Queue implementation classes */
+// Queue ADT (interface)
+_____
+<<Queue<T>>>
+_____
+_____
++ enqueue(T item): void
++ dequeue(): T
++ peek(): T
++ isEmpty: boolean
++ printQueue(): void
++ iterator(): void
+- toArray(): T[]
+- fromArray(T[] itemArray): void
+_____
+
+// Queue Implementation (linked list)
+_____
+PersonQueue
+_____
+- head: Node<Person>
+- tail: Node<Person>
+- size: int
+_____
++ enqueue(Person person): void
++ dequeue(): Person
++ peek(): Person
++ isEmpty: boolean
++ printQueue(): void
++ iterator(): void
+- toArray(): Person[]
+- fromArray(Person[] personArray): void
+_____
+
+
+// Node class (inner)
+____
+Node<Person>
+_____
++ data : Person
++ next : Node<Person>
+_____
+_____
+
+// Iterator (inner)
+LinkedListIterator (Implements Iterator<T>)
+_____
+- current: Node<Person>
+_____
++ hasNext(): Boolean
++ next(): int
+_____
+
+
+/* Main test class */
+_____
+PersonMain
+_____
+_____
++ main(String[] args): void, static
+_____
