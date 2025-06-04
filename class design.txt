@@ -19,13 +19,29 @@ _____
 + toString(): String // Override
 _____
 
+/* Last Name Comparator */
+_____
+LastNameDescendingComparator implements Comaparator<Person>
+_____
+_____
++ compare(Person person1, Person person2): int
+_____
+
+/* Age Comparator */
+_____
+AgeDescendingComparator implements Comaparator<Person>
+_____
+_____
++ compare(Person person1, Person person2): int
+_____
+
 /* Sorting implementation */
 _____
 QuickSort<T>
 _____
 _____
-+ quickSort(T[] itemArray, int p, int r): void, static
-- partition(T[] itemArray, int p, int r): void, static
++ quickSort(T[] itemArray, int p, int r, Comparator<T> comparator): void, static
+- partition(T[] itemArray, int p, int r, Comparator<T> comparator): void, static
 _____
 
 /* Queue implementation classes */

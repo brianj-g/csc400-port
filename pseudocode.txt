@@ -1,0 +1,84 @@
+// Pseudocode
+
+/* Class: Person */
+class Person:
+	private firstName: String
+	private lastName: String
+	private age: int
+	
+	// Constructor
+	public Person(firstName: String, lastName, String, age: int)
+		set this.firstName = firstName
+		set this.lastName = lastName
+		set this.age = age
+	
+	// Getters & Setters
+	public setFirstName(firstName: String): void
+		set this.firstName = firstName
+	public getFirstName(): String
+		return this.firstName
+	
+	public setLastName(lastName: String): void
+		set this.lastName = lastName
+	public getLastName(): String
+		return this.lastName
+	
+	public setAge(age: int): void
+		set this.age = age
+	public getAge(): int
+		return this.age
+	
+	// Override
+	public toString(): String
+		return "{lastName}, {firstName}: {age}"
+	
+
+/* Class: Last Name Comparator */
+class LastNameDescendingComparator implements Comparator<Person>
+	// Override
+	public compare(person1: Person, person2: Person): int
+		return person2.getLastName().compareTo(person1.getLastName())
+
+/* Class: Age Comparator */
+class AgeDescendingComparator implements Comparator<Person>
+	// Override
+	public compare(person1: Person, person2: Person): int
+		return Integer.compare(person2.getAge(), person1.getAge())
+	
+/* Class: Sorting implementation (Quicksort) */
+class QuickSort<T>
+	public static quickSort(itemArray: T[], p: int, r: int, comparator: Comparator<T>): void
+		// base case
+		if (p >= r): return
+		
+		// Find new pivot 'q'
+		set int q = partition(itemArray, p, r, comparator)
+		
+		// Recursive calls
+		quickSort(itemArray, p, q, comparator) // Sort left side
+		quickSort(itemArray, q + 1, r, comparator) // Sort right side
+		
+	
+	private partition(itemArray: T[], p: int, r: int, comparator: Comparator<T>): void
+		// Establish the pivot
+		set T pivot = itemArray[r]
+		
+		// Max index on left side of the pivot
+		set int i = p - 1
+		for(int j = p; j < r; ++j):   // All elements are checked until the pivot is reached
+			if comparator.compare(itemArray[j], pivot) <= 0:
+				set i = i + 1
+				// Swip swap value to the left side of the pivot
+				set T tempVal = itemArray[i]
+				set itemArray[i] = itemArray[j]
+				set itemArray[j] = tempVal
+		
+		set T tempVal = itemArray[i + 1]
+		set itemArray[i + 1] = itemArray[r]
+		set itemArray[r] = tempVal
+		
+		return i + 1 // Return index of the next pivot
+			
+	
+		
+		
