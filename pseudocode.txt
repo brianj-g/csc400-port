@@ -63,7 +63,7 @@ class QuickSort<T>
 		quickSort(itemArray, q + 1, r, comparator) // Sort right side
 		
 	
-	private partition(itemArray: T[], p: int, r: int, comparator: Comparator<T>): void
+	private partition(itemArray: T[], p: int, r: int, comparator: Comparator<T>): int
 		// Establish the pivot
 		set T pivot = itemArray[r]
 		
@@ -88,6 +88,7 @@ interface Queue<T>
 	public enqueue(item: T): void
 	public dequeue(): T
 	public peek(): T
+	public size(): int
 	public isEmpty(): boolean
 	public printQueue(): void
 	public iterator(): Iterator<T>
@@ -126,7 +127,7 @@ class PersonQueue implements Queue<Person>
 		return size
 		
 	public isEmpty(): boolean
-		return(size <= 0)
+		return(size == 0)
 	
 	/* Function toArray copies the contents of the queue into an array */
 	public toArray(): Person[]		

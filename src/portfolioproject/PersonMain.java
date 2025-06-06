@@ -2,6 +2,9 @@ package portfolioproject;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /* Person Class: Define a data type to hold first name, last name, and age */
 class Person {
@@ -47,7 +50,7 @@ class Person {
     // Override method to return a nicely formatted output
     @Override
     public String toString() {
-        return String.format("%s, %s: %d\n", lastName, firstName, age);
+        return String.format("%s, %s: %d", lastName, firstName, age);
     }
 }
 
@@ -59,68 +62,103 @@ interface Queue<T>{
     public int size();
     public boolean isEmpty();
     public void printQueue();
-    public Iterator<T> iterator();
     public T[] toArray();
     public void fromArray(T[] itemArray);
 }
 
 /* PersonQueue class: An implementation of Queue using the Person class */
 class PersonQueue implements Queue<Person>{
+    // Initialize linked list to use for Queue
+    private LinkedList<Person> llQueue = new LinkedList<>();
+    
+    // Initialize size counter
+    private int size = 0;
 
+    /* Add a person to the end of the list */
     @Override
-    public void enqueue(Person item) {
-        // TODO Auto-generated method stub
-        
+    public void enqueue(Person person) {
+        llQueue.addLast(person);
+        size++; // Size increases when a Person is enqueued
     }
 
+    /* Remove a person from the front of the list and return the object */
     @Override
     public Person dequeue() {
-        // TODO Auto-generated method stub
-        return null;
+        // Safety check
+        if (!llQueue.isEmpty()) {
+            throw new NoSuchElementException("Error: Queue is empty");
+        }
+        
+        Person person = llQueue.getFirst();
+        llQueue.removeFirst();
+        size--; // Size decreases when a Person is dequeued
+        
+        return person;
     }
 
+    /* Return the object at the front of the list without removing it */
     @Override
     public Person peek() {
-        // TODO Auto-generated method stub
-        return null;
+        // Safety check
+        if (!llQueue.isEmpty()) {
+            throw new NoSuchElementException("Error: Queue is empty");
+        }
+        
+        return llQueue.getFirst();
     }
 
+    /* Return the size of the queue (number of objects) */
     @Override
     public int size() {
-        // TODO Auto-generated method stub
-        return 0;
+        return size;
     }
 
+    /* Return true if queue is empty, false if not */
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return (size == 0);
     }
 
+    /* Prints out all of the elements in the queue */
     @Override
     public void printQueue() {
-        // TODO Auto-generated method stub
-        
+        // Use the linked list's iterator
+        for(Person p : llQueue) {
+            System.out.println(p.toString());
+        }
     }
 
-    @Override
-    public Iterator<Person> iterator() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    /* Copy the contents of the queue into an array */
     @Override
     public Person[] toArray() {
-        // TODO Auto-generated method stub
-        return null;
+        // Initialize new array sized at the queue size
+        Person[] personArray = new Person[llQueue.size()];
+        
+        // Initialize manual iterator for queue
+        Iterator<Person> queueIter = llQueue.iterator();
+        
+        // Traverse linked list and populate the array
+        int i = 0; // Array indexer
+        while(queueIter.hasNext()) {
+            personArray[i] = queueIter.next();
+            i++;
+        }
+        
+        return personArray;
     }
 
+    /* Copy the contents of the passed array into the queue */
     @Override
-    public void fromArray(Person[] itemArray) {
-        // TODO Auto-generated method stub
+    public void fromArray(Person[] personArray) {
+        // Iterate through the array and populate a temporary list
+        LinkedList<Person> tempQueue = new LinkedList<>();
+        for (int i = 0; i < personArray.length; ++i) {
+            tempQueue.addLast(personArray[i]);
+        }
         
+        // Set llQueue reference to tempQueue, replacing the contents
+        llQueue = tempQueue;
     }
-    
 }
 
 /* Last Name Comparator Class: For sorting by last name */
@@ -153,6 +191,7 @@ class QuickSort {
         // Recursive calls
         quickSort(itemArray, p, q, comparator); // Sort left side of pivot
         quickSort(itemArray, q + 1, r, comparator); // Sort right side of pivot
+        
     }
     
     private static <T> int partition(T[] itemArray, int p, int r, Comparator<T> comparator){
@@ -184,6 +223,49 @@ class QuickSort {
 
 public class PersonMain {    
     public static void main(String[] args) {
-        // main things
+        // Initialize queue of Person objects
+        PersonQueue personQueue = new PersonQueue();
+        
+        // Set queue sizes
+        final int QUEUE_SIZE = 5;
+        final int QUEUE_START = 0;
+        final int QUEUE_END = QUEUE_SIZE - 1;
+        
+        // Initialize scanner to read input
+        Scanner scanner = new Scanner(System.in);
+        
+        // Input loop
+        for (int i = 0; i < QUEUE_SIZE; ++i) {
+            // Create and populate a new Person
+            Person person = new Person();
+            System.out.print("First name: ");
+            person.setFirstName(scanner.next());
+            System.out.print("Last name: ");
+            person.setLastName(scanner.next());
+            System.out.print("Age: ");
+            person.setAge(scanner.nextInt());
+            
+            personQueue.enqueue(person);
+        }
+        
+        // Inspect the current queue order
+        personQueue.printQueue();
+        
+        // Initialize sorting array
+        Person[] sortedArray;
+        
+        // Sort the queue by last name (descending)
+        sortedArray = personQueue.toArray();
+        QuickSort.quickSort(sortedArray, QUEUE_START, QUEUE_END, new LastNameDescendingComparator());
+        personQueue.fromArray(sortedArray);
+        personQueue.printQueue();
+        System.out.println();
+        
+        sortedArray = personQueue.toArray();
+        QuickSort.quickSort(sortedArray, QUEUE_START, QUEUE_END, new AgeDescendingComparator());
+        personQueue.fromArray(sortedArray);
+        personQueue.printQueue();
+        System.out.println();
+        
     }
 }
