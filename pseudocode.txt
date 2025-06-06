@@ -59,7 +59,7 @@ class QuickSort<T>
 		set int q = partition(itemArray, p, r, comparator)
 		
 		// Recursive calls
-		quickSort(itemArray, p, q, comparator) // Sort left side
+		quickSort(itemArray, p, q - 1, comparator) // Sort left side
 		quickSort(itemArray, q + 1, r, comparator) // Sort right side
 		
 	

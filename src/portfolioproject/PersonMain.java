@@ -189,7 +189,7 @@ class QuickSort {
         int q = partition(itemArray, p, r, comparator);
         
         // Recursive calls
-        quickSort(itemArray, p, q, comparator); // Sort left side of pivot
+        quickSort(itemArray, p, q - 1, comparator); // Sort left side of pivot
         quickSort(itemArray, q + 1, r, comparator); // Sort right side of pivot
         
     }
@@ -234,6 +234,13 @@ public class PersonMain {
         // Initialize scanner to read input
         Scanner scanner = new Scanner(System.in);
         
+//     // Manual testing / debugging
+//        personQueue.enqueue(new Person("Emily", "Klein", 29));
+//        personQueue.enqueue(new Person("Noah", "Reed", 35));
+//        personQueue.enqueue(new Person("Ava", "Carter", 24));
+//        personQueue.enqueue(new Person("Liam", "James", 42));
+//        personQueue.enqueue(new Person("Sophia", "Evans", 31));
+        
         // Input loop
         for (int i = 0; i < QUEUE_SIZE; ++i) {
             // Create and populate a new Person
@@ -249,23 +256,30 @@ public class PersonMain {
         }
         
         // Inspect the current queue order
+        System.out.println("*** Original Queue ***");
         personQueue.printQueue();
+        System.out.println();
         
         // Initialize sorting array
         Person[] sortedArray;
         
         // Sort the queue by last name (descending)
+        System.out.println("*** Sorted by last name (descending) ***");
         sortedArray = personQueue.toArray();
         QuickSort.quickSort(sortedArray, QUEUE_START, QUEUE_END, new LastNameDescendingComparator());
         personQueue.fromArray(sortedArray);
         personQueue.printQueue();
         System.out.println();
         
+        // Sort the queue by age (descending)
+        System.out.println("*** Sorted by age (descending) ***");
         sortedArray = personQueue.toArray();
         QuickSort.quickSort(sortedArray, QUEUE_START, QUEUE_END, new AgeDescendingComparator());
         personQueue.fromArray(sortedArray);
         personQueue.printQueue();
         System.out.println();
         
+        // Clean up the Scanner
+        scanner.close();
     }
 }
