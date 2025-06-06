@@ -53,6 +53,7 @@ _____
 + enqueue(T item): void
 + dequeue(): T
 + peek(): T
++ size(): int
 + isEmpty(): boolean
 + printQueue(): void
 + iterator(): Iterator<T>
@@ -71,6 +72,7 @@ _____
 + enqueue(Person person): void
 + dequeue(): Person
 + peek(): Person
++ size(): int
 + isEmpty(): boolean
 + printQueue(): void
 + iterator(): Iterator<T>

@@ -6,6 +6,10 @@ class Person:
 	private lastName: String
 	private age: int
 	
+	// Constructor, no args
+	public Person()
+		// Nothing to see here
+	
 	// Constructor
 	public Person(firstName: String, lastName, String, age: int)
 		set this.firstName = firstName
@@ -79,6 +83,116 @@ class QuickSort<T>
 		
 		return i + 1 // Return index of the next pivot
 			
+/* Interface: Queue ADT */
+interface Queue<T>
+	public enqueue(item: T): void
+	public dequeue(): T
+	public peek(): T
+	public isEmpty(): boolean
+	public printQueue(): void
+	public iterator(): Iterator<T>
+	public toArray(): T[]
+	public fromArray(itemArray T[]): void
+
+/* Class: Person Queue */
+class PersonQueue implements Queue<Person>
+	// Design decision: Either build a custom LL implementation, or import Java.util
+	initialize LinkedList<Person> llQueue
+	
+	// Size counter
+	intialize int size = 0
+	
+	public enqueue(person: Person): void
+		llQueue.addLast(person)
+		size = size + 1
+	
+	public dequeue(): Person
+		// Safety check
+		if llQueue.isEmpty() is True: throw exception
+		
+		set Person person = llQueue.getFirst()
+		llQueue.removeFirst()
+		size = size - 1
+		
+		return person
+	
+	public peek(): Person
+		// Safety check
+		if llQueue.isEmpty() is True: throw exception
+		
+		return llQueue.getFirst()
+	
+	public size(): int
+		return size
+		
+	public isEmpty(): boolean
+		return(size <= 0)
+	
+	/* Function toArray copies the contents of the queue into an array */
+	public toArray(): Person[]		
+		// Initialize new array sized at the queue size
+		initialize Person[] personArray = Person[llQueue.size()]
+		
+		// Initialize iterator for queue
+		initialize Iterator<Person> queueIter = llQueue.iterator()
+		
+		// Traverse linked list and populate array
+		initialize int i = 0 // Array indexer
+		while(queueIter.hasNext()):
+			set personArray[i] = queueIter.next()
+			set i = i + 1
+		
+		return personArray
+	
+	/* Function fromArray copies the contents of the passed array into the queue */
+	public fromArray(personArray: Person[]): void
+		// Iterate through array and populate a linked list
+		initialize LinkedList<Person> tempQueue
+		for (int i = 0; i < personArray.length; ++i):
+			tempQueue.addLast(personArray[i])
+		
+		// Sets llQueue reference to tempQueue, replacing the contents
+		set llQueue = tempQueue
+	
+/* Class: PersonMain */
+class PersonMain:
+	public static main(String[] args): void
+		// Initialize queue of Person objects
+		initialize PersonQueue personQueue
+		
+		// Initialize input array for 5 Person objects
+		initialize Person[] personArray = Person[5]
+		
+		// Initialize scanner to read input (Java specific)
+		Scanner scanner = new scanner(System.in)
+		
+		// Input loop
+		for (int i = 0; i < personArray.length; ++i):
+			Person person = new Person()
+			person.setFirstName(readln("First name: "))
+			person.setLastName(readln("Last name: "))
+			person.setAge(readln("Age: "))
+			
+			personQueue.enqueue(person)
+		
+		// Inspect the current queue order
+		personQueue.printQueue()
+		
+		// Sorting array
+		initialize Person[] sortedArray
+		
+		// Sort the queue by Last name (descending)
+		set sortedArray = QuickSort.quickSort(personQueue.toArray(), 0, personQueue.size() - 1, new LastNameDescendingComparator())
+		personQueue.fromArray(sortedArray)
+		personQueue.printQueue()
+		
+		// Sort the queue by Age (descending)
+		set sortedArray = QuickSort.quickSort(personQueue.toArray(), 0, personQueue.size() - 1, new AgeDescendingComparator())
+		personQueue.fromArray(sortedArray)
+		personQueue.printQueue()
+		
+	
+	
 	
 		
 		
